@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/css/output.css" />
+    <title>Sign In</title>
+    <style>
+      /* Spinner styles */
+      .submit-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        display: none;
+      }
+
+      .success-check {
+        display: none;
+        font-size: 18px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Button states */
+      .btn-loading .btn-text {
+        display: none;
+      }
+
+      .btn-loading .spinner {
+        display: block;
+      }
+
+      .btn-success .spinner {
+        display: none;
+      }
+
+      .btn-success .success-check {
+        display: block;
+      }
+
+      /* Full page overlay */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(5px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .overlay-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top-color: #3b82f6;
+        animation: spin 1s linear infinite;
+      }
+
+      .error-message {
+        color: #f87171;
+        font-size: 0.875rem;
+        display: none;
+      }
+
+      /* Sign in link */
+      .sign-in-link {
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .sign-in-link:hover {
+        color: #3b82f6 !important;
+      }
+    </style>
+  </head>
+  <body class="flex justify-center items-center px-20 py-14 relative h-full">
+    <!-- Full page overlay -->
+    <div class="overlay" id="overlay">
+      <div class="overlay-spinner"></div>
+    </div>
+
+    <main class="items-center flex justify-center h-full">
+      <section
+        class="bg-[#f7f7f7] shadow-xl pb-8 flex w-[80vw] rounded-xl flex-col gap-10 md:w-[55vw] lg:w-[40vw] xl:w-[28vw]"
+      >
+        <nav class="h-[12vh] flex border-b-2 justify-center items-center mt-2 md:h-[10vh]">
+          <h2 class="text-black text-2xl font-medium">Get Started</h2>
+        </nav>
+        <article
+          class="flex flex-col gap-2 items-center justify-center w-[100%] px-4"
+        >
+          <!-- Your form fields -->
+          <div class="flex flex-col gap-2 w-[100%]">
+            <label class="text-[#333333] text-l font-medium">Username</label>
+            <input
+              type="text"
+              placeholder="Enter username"
+              class="w-[100%] px-4 py-2 rounded-lg border-2 border-[#d1d5db] placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+          
+           
+          <div class="flex flex-col gap-2 w-[100%]">
+            <label class="text-[#333333] text-l font-medium">Password</label>
+            <input
+              type="password"
+              placeholder="Enter password"
+              class="w-[100%] px-4 py-2 rounded-lg border-2 border-[#d1d5db] placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+        </article>
+        <div class="w-[100%] text-center px-4 flex flex-col gap-4">
+          <button
+            id="submitBtn"
+            class="bg-gray-500 hover:bg-gray-600 text-white w-full py-2 rounded-md transition-all duration-200"
+          >
+            <div class="submit-content">
+              <span class="btn-text">Submit</span>
+              <div class="spinner"></div>
+              <span class="success-check">✓</span>
+            </div>
+          </button>
+          <p class="text-gray-400 font-medium">
+            Already have an account?
+            <span class="text-black sign-in-link" id="signUpLink">Sign up</span>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Form submission
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", function (e) {
+          const btn = this;
+          btn.disabled = true;
+          btn.classList.add("btn-loading");
+
+          setTimeout(function () {
+            btn.classList.remove("btn-loading");
+            btn.classList.add("btn-success");
+
+            setTimeout(function () {
+              window.location.href = "./05/src/index.html";
+            }, 1000);
+          }, 2000);
+        });
+
+      // Sign in link functionality
+      const signUpLink = document.getElementById("signUpLink");
+      const overlay = document.getElementById("overlay");
+
+      signUpLink.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Activate overlay with blur effect
+        overlay.classList.add("active");
+
+        // Show spinner for 2 seconds then redirect
+        setTimeout(function () {
+          window.location.href = "index.html"; // Change to your sign-in page
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>
